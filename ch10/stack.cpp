@@ -23,8 +23,6 @@ void *pop(stack *s) {
     if (s->tail == s->array) {
         throw "Error: stack underflow";
     } else {
-        void *x = *s->tail;
-        --(s->tail);
-        return x;
+        return *(--s->tail);
     }
 }

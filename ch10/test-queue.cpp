@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include"stack.h"
+#include"queue.h"
 
 using namespace std;
 
 int main() {
-    stack *s = newStack(10);
+    queue *s = newQueue(10);
 
     printf("example input:\npush hello\npop\ninput: ");
 
@@ -18,10 +18,10 @@ int main() {
             if (strcmp(command, "push") == 0) {
                 char *newString = (char *)malloc(sizeof(input));
                 strcpy(newString, input);
-                push(s, newString);
+                enqueue(s, newString);
                 printf("pushed: %s\n", newString);
             } else if (strcmp(command, "pop") == 0) {
-                char *poppedString = (char *)pop(s);
+                char *poppedString = (char *)dequeue(s);
                 printf("popped: %s\n", poppedString);
                 free(poppedString);
             } else {
@@ -30,7 +30,6 @@ int main() {
         } catch (const char *e) {
             printf("%s\n", e);
         }
-        printf("length: %ld\n", s->tail - s->array);
         printf("input: ");
     }
 }
