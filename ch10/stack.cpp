@@ -1,5 +1,4 @@
 #include"stack.h"
-#include<stdexcept>
 
 using namespace std;
 
@@ -13,7 +12,7 @@ stack *newStack(int size) {
 
 void push(stack *s, void *x) {
     if (s->tail - s->array == s->size) {
-        throw runtime_error("Error: stack overflow");
+        throw "Error: stack overflow";
     } else {
         *s->tail = x;
         ++(s->tail);
@@ -22,8 +21,7 @@ void push(stack *s, void *x) {
 
 void *pop(stack *s) {
     if (s->tail == s->array) {
-        throw runtime_error("Error: stack underflow");
-        return NULL;
+        throw "Error: stack underflow";
     } else {
         void *x = *s->tail;
         --(s->tail);

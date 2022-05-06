@@ -1,4 +1,3 @@
-#include<stdexcept>
 #include<stdio.h>
 #include<string.h>
 #include"stack.h"
@@ -23,8 +22,8 @@ int main() {
             } else {
                 printf("incorrect input\n");
             }
-        } catch (const runtime_error& e) {
-            printf("%s\n", e.what());
+        } catch (const char *e) {
+            printf("%s\n", e);
         }
         printf("length: %ld\n", s->tail - s->array);
         printf("input: ");

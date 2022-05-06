@@ -1,5 +1,4 @@
 #include"queue.h"
-#include<stdexcept>
 
 using namespace std;
 
@@ -14,7 +13,7 @@ queue *newQueue(int size) {
 
 void enqueue(queue *s, void *x) {
     if (s->tail - s->array == s->size) {
-        throw runtime_error("Error: queue overflow");
+        throw "Error: queue overflow";
     } else {
         *s->tail = x;
         ++(s->tail);
@@ -23,8 +22,7 @@ void enqueue(queue *s, void *x) {
 
 void *dequeue(queue *s) {
     if (s->tail == s->array) {
-        throw runtime_error("Error: queue underflow");
-        return NULL;
+        throw "Error: queue underflow";
     } else {
         void *x = *s->tail;
         --(s->tail);
