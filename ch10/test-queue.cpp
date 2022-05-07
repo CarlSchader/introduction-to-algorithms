@@ -29,7 +29,7 @@ int main() {
                 printf("incorrect input\n");
             }
             // toString(s, output);
-            printf("%s", output);
+            // printf("%s", output);
         } catch (const char *e) {
             printf("%s\n", e);
         }

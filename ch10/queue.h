@@ -6,7 +6,6 @@ struct queue {
     void** head;
     void** tail;
     int size;
-    int count;
 };
 
 queue *newQueue(int size);

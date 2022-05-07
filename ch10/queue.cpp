@@ -7,34 +7,35 @@ using namespace std;
 queue *newQueue(int size) {
     queue *s = new queue();
     s->array = new void *[size];
-    s->head = s->array - 1;
+    s->head = s->array + size;
     s->tail = s->array;
     s->size = size;
     return s;
 }
 
 void enqueue(queue *s, void *x) {
-    if (s->tail == s->head && s->count > 0) {
-        s->tail = ;
+    if (s->tail == s->head) {
         throw "Error: queue overflow";
-    } else {
-        *s->tail = x;
-        s->tail++;
-        s->count++;
     }
+    if (s->tail - s->array == s->size) {
+        s->tail = s->array;
+    }
+    *s->tail = x;
+    s->tail++;
 }
 
 void *dequeue(queue *s) {
+    void **original = s->head;
+    if (s->head - s->array == s->size) {
+        s->head = s->array;
+    } else {
+        s->head++;
+    }
     if (s->head == s->tail) {
+        s->head = original;
         throw "Error: queue underflow";
     } else {
-        void *x = *s->head;
-        s->head++;
-        if (s->head - s->array == s->size) {
-            s->head = s->array;
-        }
-        s->count--;
-        return x;
+        return *s->head;
     }
 }
 
