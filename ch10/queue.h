@@ -6,6 +6,7 @@ struct queue {
     void** head;
     void** tail;
     int size;
+    int count;
 };
 
 queue *newQueue(int size);
@@ -13,5 +14,7 @@ queue *newQueue(int size);
 void enqueue(queue *s, void *x);
 
 void *dequeue(queue *s);
+
+void toString(queue *s, char *buffer);
 
 #endif

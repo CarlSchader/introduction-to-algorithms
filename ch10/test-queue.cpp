@@ -12,6 +12,7 @@ int main() {
 
     char command[32];
     char input[32];
+    char output[2048];
     while (scanf("%s %s", command, input) != EOF) {
         printf("\n");
         try {
@@ -27,6 +28,8 @@ int main() {
             } else {
                 printf("incorrect input\n");
             }
+            // toString(s, output);
+            printf("%s", output);
         } catch (const char *e) {
             printf("%s\n", e);
         }

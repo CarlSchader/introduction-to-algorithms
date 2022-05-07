@@ -1,4 +1,6 @@
 #include"queue.h"
+#include<string.h>
+#include<stdio.h>
 
 using namespace std;
 
@@ -12,28 +14,51 @@ queue *newQueue(int size) {
 }
 
 void enqueue(queue *s, void *x) {
-    void **original = s->head + 1;
-    if (s->tail - s->array == s->size) {
-        s->tail = s->array;
-    }
-    if (s->tail == s->head) {
+    if (s->tail == s->head && s->count > 0) {
+        s->tail = ;
         throw "Error: queue overflow";
     } else {
         *s->tail = x;
         s->tail++;
+        s->count++;
     }
 }
 
 void *dequeue(queue *s) {
-    void **original = s->head;
-    s->head++;
-    if (s->head - s->array == s->size) {
-        s->head = s->array;
-    }
     if (s->head == s->tail) {
-        s->head = original;
         throw "Error: queue underflow";
     } else {
-        return *s->head;
+        void *x = *s->head;
+        s->head++;
+        if (s->head - s->array == s->size) {
+            s->head = s->array;
+        }
+        s->count--;
+        return x;
     }
 }
+
+// void toString(queue *s, char *buffer) {
+//     buffer[0] = '\0';
+//     void **head = s->head;
+//     head++;
+//     if (head - s->array == s->size) {
+//         head = s->array;
+//     }
+//     while (head != s->tail) {
+//         if (head - s->array == s->size) {
+//             head = s->array;
+//         }
+//         char elemString[100];
+//         sprintf(elemString, "element: %s\n", (char *)*head);
+//         strcat(buffer, elemString);
+        
+//         head++;
+//         if (head - s->array == s->size) {
+//             head = s->array;
+//         }
+//     }
+//     char countString[32];
+//     sprintf(countString, "count: %d\n", s->count);
+//     strcat(buffer, countString);
+// }
