@@ -14,6 +14,7 @@ queue *newQueue(int size) {
 }
 
 void enqueue(queue *s, void *x) {
+    printf("tail: %ld\n", s->tail - s->array);
     if (s->tail == s->head) {
         throw "Error: queue overflow";
     }
@@ -25,6 +26,7 @@ void enqueue(queue *s, void *x) {
 }
 
 void *dequeue(queue *s) {
+    printf("head: %ld\n", s->head - s->array);
     void **original = s->head;
     if (s->head - s->array == s->size) {
         s->head = s->array;
