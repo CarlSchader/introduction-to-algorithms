@@ -13,7 +13,7 @@ bool prompt(string& command, string& input) {
 int main() {
     DoublyLinkedList<string> l = DoublyLinkedList<string>();
 
-    cout << "commands: search, insert, remove\n";
+    cout << "commands: search, insert, remove, remove-node\n";
 
     string command, input;
     while (prompt(command, input)) {

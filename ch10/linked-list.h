@@ -7,10 +7,10 @@ using namespace std;
 
 template<typename T>
 class SinglyLinkedList {
-    private:
+    public:
         T key;
         SinglyLinkedList *next;
-    public:
+
         SinglyLinkedList() {
             key = T();
             next = this;
@@ -61,11 +61,11 @@ class SinglyLinkedList {
 
 template<typename T>
 class DoublyLinkedList {
-    private:
+    public:
         T key;
         DoublyLinkedList *next;
         DoublyLinkedList *prev;
-    public:
+
         DoublyLinkedList() {
             key = T();
             next = this;
