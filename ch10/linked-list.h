@@ -59,4 +59,72 @@ class SinglyLinkedList {
         }
 };
 
+template<typename T>
+class DoublyLinkedList {
+    private:
+        T key;
+        DoublyLinkedList *next;
+        DoublyLinkedList *prev;
+    public:
+        DoublyLinkedList() {
+            key = T();
+            next = this;
+            prev = this;
+        }
+
+        DoublyLinkedList(T key) {
+            this->key = key;
+            next = this;
+            prev = this;
+        }
+
+        DoublyLinkedList *search(T key) {
+            DoublyLinkedList *current = this->next;
+            while (current != this && current->key != key)
+                current = current->next;
+            if (current != this) {
+                return current;
+            } else {
+                return nullptr;
+            }
+        }
+
+        void insert(T key) {
+            DoublyLinkedList *newHead = new DoublyLinkedList(key);
+            this->next->prev = newHead;
+            newHead->next = this->next;
+            newHead->prev = this;
+            this->next = newHead;
+        }
+
+        void remove(T key) {
+            DoublyLinkedList *current = this->next;
+            while (current != this && current->key != key) {
+                current = current->next;
+            }
+            if (current != this) {
+                current->prev->next = current->next;
+                current->next->prev = current->prev;
+                delete current;
+            }
+        }
+
+        void remove(DoublyLinkedList *node) {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            delete node;
+        }
+
+        string toString() {
+            DoublyLinkedList *current = this->next;
+            string str = string("");
+            while (current != this) {
+                str.append(current->key);
+                str.append("->");
+                current = current->next;
+            }
+            return str;
+        }
+};
+
 #endif
