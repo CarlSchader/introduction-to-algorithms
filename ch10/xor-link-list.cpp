@@ -10,85 +10,100 @@ struct Node {
 };
 
 template<typename T>
-Node<T> *nodeSearch(Node<T> head, T key) {
+Node<T> *nodeSearch(Node<T> *head, T key) {
+    if (head == nullptr) {
+        return nullptr;
+    }
     // head previous node is 0, so 0 xor next = next
     Node<T> *current = head;
     Node<T> *previous = nullptr;
-    Node<T> *next = current.np ^ previous;
+    Node<T> *next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     while (next != nullptr) {
         if (current->key == key) {
             return current;
         } else {
             previous = current;
             current = next;
-            next = current.np ^ previous;
+            next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
         }
+    }
+    if (current->key == key) {
+        return current;
     }
     return nullptr;
 }
 
 template<typename T>
 void nodeInsert(Node<T> *head, T key) {
-    if (head == nullptr) {
-        Node<T> *newNode = new Node<T>;
-        newNode->key = key;
-        newNode->np = current;
-        return;
-    }
     // head previous node is 0, so 0 xor next = next
     Node<T> *current = head;
     Node<T> *previous = nullptr;
-    Node<T> *next = current.np ^ previous;
+    Node<T> *next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     while (next != nullptr) {
         previous = current;
         current = next;
-        next = current.np ^ previous;
+        next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     }
     Node<T> *newNode = new Node<T>;
     newNode->key = key;
     newNode->np = current;
-    current.np = previous ^ newNode;
+    current->np = (Node<T> *)((uintptr_t)previous ^ (uintptr_t)newNode);
 }
 
 template<typename T>
-void nodeDelete(Node<T> head, Node<T> *deleteNode) {
+Node<T> *nodeDelete(Node<T> *head, Node<T> *deleteNode) {
+    if (head == nullptr) {
+        return head;
+    }
     // head previous node is 0, so 0 xor next = next
     Node<T> *current = head;
     Node<T> *previous = nullptr;
-    Node<T> *previous2 = nullptr;
-    Node<T> *next = current.np ^ previous;
+    Node<T> *next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     while (current != deleteNode) {
-        previous2 = previous;
         previous = current;
         current = next;
         if (current == nullptr) {
-            return;
+            return head;
         }
-        next = current.np ^ previous;
+        next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     }
+
+    cout << "current: " << current->key << endl;
+
     if (previous != nullptr) {
-        previous.np = previous2 ^ next;
+        previous->np = (Node<T> *)((uintptr_t)((uintptr_t)deleteNode ^ (uintptr_t)previous->np) ^ ((uintptr_t)next));
     }
     if (next != nullptr) {
-        Node<T> *next2 = next.np ^ current;
-        next.np = previous ^ next2;
+        next->np = (Node<T> *)((uintptr_t)((uintptr_t)deleteNode ^ (uintptr_t)next->np) ^ ((uintptr_t)previous));
     }
+
     delete deleteNode;
+
+    if (next == nullptr && previous == nullptr) {
+        return nullptr;   
+    } else {
+        return head;
+    }
 }
 
 template<typename T>
 string listToString(Node<T> *head) {
     string str = "";
+    if (head == nullptr) {
+        return str;
+    }
     // head previous node is 0, so 0 xor next = next
     Node<T> *current = head;
     Node<T> *previous = nullptr;
-    Node<T> *next = current.np ^ previous;
-    while (current != nullptr) {
+    Node<T> *next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
+    while (true) {
         str.append(current->key);
         str.append("->");
         previous = current;
         current = next;
-        next = current.np ^ previous;
+        if (current == nullptr)
+            break;
+        next = (Node<T> *)((uintptr_t)(current->np) ^ (uintptr_t)previous);
     }
     return str;
 }
@@ -111,31 +126,24 @@ int main() {
     while (prompt(command, input)) {
         try {
             if (command == "search") {
-                // cout << "exists: " << l.search(input) << endl;
-            } else if (command == "insert") {
-                if (tail == nullptr) {
-                    tail = new Node<string>;
-                    tail->key = input;
-                    tail->next = tail;
-                    head = tail;
+                if (nodeSearch(head, input) == nullptr) {
+                    cout << "not found\n";
                 } else {
-                    tail->next = new Node<string>;
-                    tail = tail->next;
-                    tail->key = input;
-                    tail->next = head;
+                    cout << "found\n";
                 }
-            } else if (command == "remove") {
-                if (tail == nullptr) {
-                    throw string("error: stack underflow");
-                } else if (head == tail) {
-                    tail = nullptr;
-                    delete head;
-                    head = tail;
+            } else if (command == "insert") {
+                if (head == nullptr) {
+                    head = new Node<string>;
+                    head->key = input;
+                    head->np = nullptr;
                 } else {
-                    Node<string> *prev = head;
-                    head = head->next;
-                    tail->next = head;
-                    delete prev;
+                    nodeInsert(head, input);
+                }
+
+            } else if (command == "remove") {
+                Node<string> *delNode = nodeSearch(head, input);
+                if (delNode != nullptr) {
+                    head = nodeDelete(head, delNode);
                 }
             } else {
                 cout << "invalid command\n";
