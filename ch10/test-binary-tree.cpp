@@ -1,0 +1,39 @@
+#include<iostream>
+#include<string>
+#include"binary-tree.h"
+
+using namespace std;
+
+bool prompt(string& command, string& input) {
+    cout << "\ncommand: ";
+    cin >> command;
+    cout << "value: ";
+    cin >> input;
+    cout << "\n";
+    return true;
+}
+
+int main() {
+    BTreeNode *tree = nullptr;
+
+    cout << "commands: insert <val>\n";
+
+    string command, input;
+    int address;
+    while (prompt(command, input)) {
+        try {
+            if (command == "insert") {
+                BTreeNode *newNode = new BTreeNode{input, nullptr, nullptr, nullptr};
+                if (tree == nullptr)
+                    tree = newNode;
+                else
+                    BTreeInsert(tree, newNode);
+            } else {
+                cout << "invalid command\n";
+            }
+            BTreePrintIterative(tree);
+        } catch (string e) {
+            cout << e << endl;
+        }
+    }
+}
