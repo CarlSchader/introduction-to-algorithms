@@ -23,7 +23,8 @@ int main() {
     while (prompt(command, input)) {
         try {
             if (command == "insert") {
-                BTreeNode *newNode = new BTreeNode{input, nullptr, nullptr, nullptr};
+                BTreeNode *newNode = new BTreeNode;
+                newNode->key = input;
                 if (tree == nullptr)
                     tree = newNode;
                 else
