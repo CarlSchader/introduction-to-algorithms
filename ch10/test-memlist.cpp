@@ -16,7 +16,7 @@ bool prompt(string& command, string& input) {
 int main() {
     Memlist mem = Memlist(5);
 
-    cout << "commands: alloc <val>, free <address>\n";
+    cout << "commands: alloc <val>, free <address>, compactify <anything>\n";
 
     string command, input;
     int address;
@@ -27,6 +27,8 @@ int main() {
                 mem.set(address, stoi(input));
             } else if (command == "free") {
                 mem.free(stoi(input));
+            } else if (command == "compactify") {
+                mem.compactify();
             } else {
                 cout << "invalid command\n";
             }
