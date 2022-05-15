@@ -15,6 +15,7 @@ class Memlist {
         int alloc();
         void free(int address);
         void set(int address, int val);
+        void compactify();
         string freeString();
         string allocString();
 };

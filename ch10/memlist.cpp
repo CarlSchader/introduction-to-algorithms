@@ -54,6 +54,51 @@ void Memlist::set(int address, int val) {
     heap[address + 2] = val;
 }
 
+void Memlist::compactify() {
+    int index = 0;
+    int current = allocHead;
+    while (current != -1) {
+        int next = heap[current + 1];
+        int val = heap[current + 2];
+
+        if (next == index) {
+            next = current;
+            heap[current + 1] = heap[index + 1];
+            heap[current + 2] = heap[index + 2];
+            heap[index + 1] = index + 3;
+            heap[index + 2] = val;
+        } else {
+            heap[current + 1] = heap[index + 1];
+            heap[current + 2] = heap[index + 2];
+            heap[index + 1] = index + 3;
+            heap[index + 2] = val;  
+        }
+
+        // set next current
+        current = next;
+        index += 3;
+    }
+    heap[(index - 3) + 1] = -1;
+    
+    if (allocHead != -1)
+        allocHead = 0;
+    freeHead = index;
+
+    current = heap[allocHead + 1];
+    int previous = allocHead;
+    while (current != -1) {
+        heap[current] = previous;
+        previous = current;
+        current = heap[current + 1];
+    }
+    
+    while (index < (size - 1) * 3) {
+        heap[index + 1] = index + 3;
+        index += 3;
+    }
+    heap[index + 1] = -1;
+}
+
 string Memlist::freeString() {
     string str = "";
     int current = freeHead;
