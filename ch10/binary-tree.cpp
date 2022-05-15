@@ -81,3 +81,32 @@ void BTreePrintIterative(BTreeNode *tree) {
         prev = tree;
     }
 }
+
+void BTreePrintNoStack(BTreeNode *node) {
+    BTreeNode *prev = node;
+    BTreeNode *next;
+    while (node != nullptr) {
+        if (node->right == prev) {
+            next = node->parent;
+        } else if (node->left == prev) {
+            cout << node->key << endl;
+            if (node->right == nullptr) {
+                next = node->parent;
+            } else {
+                next = node->right;
+            }
+        } else {
+            if (node->left != nullptr) {
+                next = node->left;
+            } else if (node->right != nullptr) {
+                cout << node->key << endl;
+                next = node->right;
+            } else {
+                cout << node->key << endl;
+                next = node->parent;
+            }
+        }
+        prev = node;
+        node = next;
+    }        
+}

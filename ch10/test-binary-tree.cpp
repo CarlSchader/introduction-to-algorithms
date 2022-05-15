@@ -32,7 +32,7 @@ int main() {
             } else {
                 cout << "invalid command\n";
             }
-            BTreePrintIterative(tree);
+            BTreePrintNoStack(tree);
         } catch (string e) {
             cout << e << endl;
         }

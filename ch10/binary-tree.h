@@ -14,3 +14,5 @@ void BTreeInsert(BTreeNode *tree, BTreeNode *node);
 void BTreePrint(BTreeNode *tree);
 
 void BTreePrintIterative(BTreeNode *tree);
+
+void BTreePrintNoStack(BTreeNode *node);
